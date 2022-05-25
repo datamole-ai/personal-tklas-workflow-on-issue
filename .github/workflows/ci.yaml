@@ -1,16 +1,14 @@
-name: Issue triggered
-
-
+name: Repository Dispatch
 on:
   repository_dispatch:
-    types: [on-demand-test]
-
+    types: [my-event]
 jobs:
-  create_issue:
-    runs-on: ubuntu-20.04
+  myEvent:
+    runs-on: ubuntu-latest
     steps:
-      - env:
-          MESSAGE: ${{ github.event.client_payload.message }}
-        run: echo $MESSAGE
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+      - run: echo ${{ github.event.client_payload.sha }}
 
 
