@@ -1,14 +1,16 @@
 name: Issue triggered
 
-# run this on each push to all the branches 
-on: 
-  issues: 
-    types: [opened]
+
+on:
+  repository_dispatch:
+    types: [on-demand-test]
 
 jobs:
   create_issue:
     runs-on: ubuntu-20.04
-    steps: 
-      - run: gh --version
+    steps:
+      - env:
+          MESSAGE: ${{ github.event.client_payload.message }}
+      - run: echo $MESSAGE
 
 
